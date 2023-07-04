@@ -1,8 +1,9 @@
 import multiprocessing
 import time
 
-def factorize(numbers):
+def factorize(*numbers):
     num_cores = multiprocessing.cpu_count()
+    print(num_cores)
     pool = multiprocessing.Pool(processes=num_cores)
     result = pool.map(find_divisors, numbers)
     pool.close()
@@ -10,22 +11,18 @@ def factorize(numbers):
     return result
 
 def find_divisors(number):
-    divisors = []
-    for i in range(1, number + 1):
-        if number % i == 0:
-            divisors.append(i)
-    return divisors
+    return [i for i in range(1, number + 1) if number % i == 0]
+
+if __name__ == '__main__':
+    # Приклад вхідних даних (перевірка)
+    a, b, c, d = 128, 255, 99999, 10651060
+    start_time = time.time()
+    result = factorize(a, b, c, d)
+    end_time = time.time()
+    print(result)
 
 
 
-# Приклад вхідних даних
-numbers = [15, 20, 25, 30, 35, 40, 45, 50]
+    execution_time = end_time - start_time
 
-# Виміряємо час виконання
-start_time = time.time()
-result = factorize(numbers)
-end_time = time.time()
-
-execution_time = end_time - start_time
-
-print(f"Оновлена версія: {execution_time} сек")
+    print(f"Оновлена версія: {execution_time} сек")
